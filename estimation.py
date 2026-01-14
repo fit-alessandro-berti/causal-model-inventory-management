@@ -8,6 +8,7 @@ Fit the SEM to the simulated observables and save a visualization.
 from __future__ import annotations
 
 import argparse
+from pathlib import Path
 
 import pandas as pd
 
@@ -33,7 +34,12 @@ under_logodds_vs_normal ~~ over_logodds_vs_normal
 """.strip()
 
 
-def fit_semopy_model(df: pd.DataFrame, output_path: str, mean_center: bool = True) -> None:
+def fit_semopy_model(
+    df: pd.DataFrame,
+    output_path: str,
+    params_out: str | None = None,
+    mean_center: bool = True,
+) -> None:
     """
     Fit the SEM model using semopy to the simulated dataset and save a PDF plot.
     """
@@ -67,8 +73,14 @@ def fit_semopy_model(df: pd.DataFrame, output_path: str, mean_center: bool = Tru
     model = Model(SEM_MODEL_DESC)
     model.fit(data)
 
-    print("\n=== SEM parameter estimates (head) ===")
     est = model.inspect()
+    if params_out:
+        params_path = Path(params_out)
+        params_path.parent.mkdir(parents=True, exist_ok=True)
+        est.to_csv(params_path, index=False)
+        print(f"Saved SEM parameter estimates: {params_path}")
+
+    print("\n=== SEM parameter estimates (head) ===")
     print(est.head(30).to_string(index=False))
 
     print("\n=== Global fit statistics ===")
@@ -89,11 +101,22 @@ def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--data", type=str, required=True, help="Input CSV with simulated observables.")
     parser.add_argument("--out", type=str, default="output_data/sem_inventory_model_fitted.pdf", help="Output PDF path.")
+    parser.add_argument(
+        "--params-out",
+        type=str,
+        default="output_data/sem_inventory_model_params.csv",
+        help="Output CSV path for fitted parameters.",
+    )
     parser.add_argument("--no-mean-center", action="store_true", help="Skip mean-centering of indicators.")
     args = parser.parse_args()
 
     df = pd.read_csv(args.data)
-    fit_semopy_model(df, output_path=args.out, mean_center=not args.no_mean_center)
+    fit_semopy_model(
+        df,
+        output_path=args.out,
+        params_out=args.params_out,
+        mean_center=not args.no_mean_center,
+    )
 
 
 if __name__ == "__main__":

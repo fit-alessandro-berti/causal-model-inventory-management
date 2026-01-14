@@ -247,7 +247,7 @@ def compute_metrics(df: pd.DataFrame) -> pd.DataFrame:
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--data", type=str, required=True, help="Input OCEL CSV.")
-    parser.add_argument("--out", type=str, default="output_data/ocel_metrics.csv", help="Output CSV path.")
+    parser.add_argument("--out", type=str, default="output_data/ocel_metrics_observables.csv", help="Output CSV path.")
     args = parser.parse_args()
 
     df = pd.read_csv(args.data)
