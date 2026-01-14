@@ -1,3 +1,12 @@
+# Ignore everything
+*
+
+# Allow directories (so Git can recurse)
+!*/
+
+# Allow files that have an extension
+!*.*
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[codz]
