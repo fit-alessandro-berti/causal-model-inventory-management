@@ -197,7 +197,7 @@ def main() -> None:
     parser.add_argument("--seed", type=int, default=7, help="Random seed.")
     parser.add_argument("--rho", type=float, default=0.30, help="Correlation between latent Demand and Supply.")
     parser.add_argument("--horizon-days", type=float, default=180.0, help="Reference observation window length in days.")
-    parser.add_argument("--out", type=str, default="simulated_sem_inventory.csv", help="Output CSV path.")
+    parser.add_argument("--out", type=str, default="output_data/simulated_sem_inventory.csv", help="Output CSV path.")
     args = parser.parse_args()
 
     cfg = SimConfig(

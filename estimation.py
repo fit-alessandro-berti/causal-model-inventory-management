@@ -88,7 +88,7 @@ def fit_semopy_model(df: pd.DataFrame, output_path: str, mean_center: bool = Tru
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--data", type=str, required=True, help="Input CSV with simulated observables.")
-    parser.add_argument("--out", type=str, default="sem_inventory_model_fitted.pdf", help="Output PDF path.")
+    parser.add_argument("--out", type=str, default="output_data/sem_inventory_model_fitted.pdf", help="Output PDF path.")
     parser.add_argument("--no-mean-center", action="store_true", help="Skip mean-centering of indicators.")
     args = parser.parse_args()
 
